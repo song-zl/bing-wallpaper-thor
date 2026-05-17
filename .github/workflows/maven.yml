@@ -30,18 +30,16 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: Run Java Application
       run: java -jar target/bing-wallpaper-jar-with-dependencies.jar
-          
+      
     - name: Commit files
-      run: |
-         git config --local user.email "szldgt@gmail.com"
-         git config --local user.name "song-zl"
-         git pull
-         git add README.md
-         git add bing-wallpaper.md
-         git add picture/*
-         git add docs/*
-         git add zh-cn/*
-         git commit -m "update readme.md"
+    run: |
+    git config --local user.email "szldgt@gmail.com"
+    git config --local user.name "song-zl"
+    git pull
+    git add README.md bing-wallpaper.md picture/* docs/* zh-cn/*
+    git commit -m "update readme.md" || exit 0
+    git push || exit 0
+    
     - name: Push changes
       uses:  ad-m/github-push-action@master
       with:
