@@ -31,18 +31,12 @@ jobs:
     - name: Run Java Application
       run: java -jar target/bing-wallpaper-jar-with-dependencies.jar
       
-    - name: Commit files
-    run: |
-    git config --local user.email "szldgt@gmail.com"
-    git config --local user.name "song-zl"
-    git pull
-    git add README.md bing-wallpaper.md picture/* docs/* zh-cn/*
-    git commit -m "update readme.md" || exit 0
-    git push || exit 0
-    
-    - name: Push changes
-      uses:  ad-m/github-push-action@master
-      with:
-         github_token: ${{ secrets.MY_GIT_TOKEN }}
-         branch: main
-    
+    - name: Commit and Push files
+      run: |
+        git config --local user.email "szldgt@gmail.com"
+        git config --local user.name "song-zl"
+        git pull --rebase origin main
+        git add README.md bing-wallpaper.md picture/* docs/* zh-cn/*
+        git commit -m "update readme.md" || exit 0
+        git push origin main || exit 0
+
