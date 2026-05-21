@@ -35,8 +35,15 @@ jobs:
       run: |
         git config --local user.email "szldgt@gmail.com"
         git config --local user.name "song-zl"
-        git pull --rebase origin main
-        git add README.md bing-wallpaper.md picture/* docs/* zh-cn/*
-        git commit -m "update readme.md" || exit 0
+        
+        # 1. 先把本地新抓取的壁纸全部添加并提交
+        git add README.md bing-wallpaper.md picture/* docs/* zh-cn/* 2>/dev/null || true
+        git commit -m "update readme.md" || echo "No changes to commit"
+        
+        # 2. 拉取远程最新的代码并进行合并（允许无关历史合并，防止冲突）
+        git pull origin main --no-rebase || true
+        
+        # 3. 最终推送到远程 main 分支
         git push origin main || exit 0
+
 
